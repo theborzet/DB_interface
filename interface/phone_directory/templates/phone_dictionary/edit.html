@@ -1,0 +1,18 @@
+{% extends 'phone_dictionary/base.html' %}
+
+{% block title %}Редактирование{% endblock %}
+
+{% block nav %}
+    <nav >
+        <a class="nav-button" href="{% url 'index' %}">На главную</a>   
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <h2>Редактирование записи</h2>
+    <form method="post" action="{% url 'edit_task' object.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить изменения</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'phone_dictionary/base.html' %}
+
+{% block title %}Результаты поиска{% endblock %}
+
+{% block nav %}
+    <nav style="text-align: center;">
+        <a class="nav-button" href="{% url 'index' %}">Главная</a>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <h2>Результаты поиска</h2>
+    
+    {% if results %}
+        <ul>
+            {% for result in results %}
+                <li>
+                    <strong>Фамилия:</strong> {{ result.surname.name }}<br>
+                    <strong>Имя:</strong> {{ result.firstname.name }}<br>
+                    <strong>Отчество:</strong> {{ result.patronymic.name }}<br>
+                    <strong>Улица:</strong> {{ result.street.name }}<br>
+                    <strong>Дом:</strong> {{ result.house }}<br>
+                    <strong>Корпус:</strong> {{ result.corpus }}<br>
+                    <strong>Квартира:</strong> {{ result.apartments }}<br>
+                    <strong>Телефон:</strong> {{ result.phone }}<br>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Ничего не найдено.</p>
+    {% endif %}
+    
+    <p><a href="{% url 'search' %}">Назад к форме поиска</a></p>
+{% endblock %}
