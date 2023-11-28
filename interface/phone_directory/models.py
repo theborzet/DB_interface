@@ -30,10 +30,10 @@ class Street(models.Model):
 
 
 class Main(models.Model):
-    firstname = models.ForeignKey(to=Firstname, on_delete=models.PROTECT, null=True, blank=True)
-    surname = models.ForeignKey(to=Surname, on_delete=models.PROTECT, null=True, blank=True)
-    patronymic = models.ForeignKey(to=Patronymic, on_delete=models.PROTECT, null=True, blank=True)
-    street = models.ForeignKey(to=Street, on_delete=models.PROTECT, null=True, blank=True)
+    firstname = models.ForeignKey(to=Firstname, on_delete=models.CASCADE, null=True, blank=True)
+    surname = models.ForeignKey(to=Surname, on_delete=models.CASCADE, null=True, blank=True)
+    patronymic = models.ForeignKey(to=Patronymic, on_delete=models.CASCADE, null=True, blank=True)
+    street = models.ForeignKey(to=Street, on_delete=models.CASCADE, null=True, blank=True)
     house = models.CharField(max_length=20)
     corpus = models.CharField(max_length=10)
     apartments = models.PositiveIntegerField(default=0)

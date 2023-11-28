@@ -1,25 +1,42 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
+from django.views.generic import ListView
 
 from functools import reduce
 from operator import and_
 
-from phone_directory.models import Main
+from phone_directory.models import Main, Firstname, Street, Surname, Patronymic
 from phone_directory.forms import MainForm, SearchForm
 
 
-class IndexView(TemplateView):
+class GenericModelView(ListView):
+    context_object_name = 'tasks'
     template_name = 'phone_dictionary/index.html'
+    model = Main
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tasks'] = Main.objects.all()
-        return context
+    def get(self, request, *args, **kwargs):
+        model_name = self.kwargs.get('model_name', 'main')
+        model_mapping = {
+            'main': Main,
+            'firstname': Firstname,
+            'surname': Surname,
+            'street': Street,
+            'patronymic': Patronymic,
+        }
+        self.model = model_mapping.get(model_name, Main)
+        return super().get(request, *args, **kwargs)
 
+    def get_template_names(self):
+        return [f'phone_dictionary/{self.model.__name__.lower()}_list.html']
+
+    def get_queryset(self):
+        return self.model.objects.all()        
 
 def delete_task(request, task_id):
     task = get_object_or_404(Main, id=task_id)

@@ -20,11 +20,12 @@ from django.urls import path
 
 
 
-from phone_directory.views import IndexView, delete_task, LineCreateView, LineUpdateView, SearchView
+from phone_directory.views import GenericModelView, delete_task, LineCreateView, LineUpdateView, SearchView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', IndexView.as_view(), name='index'),
+    path('', GenericModelView.as_view(), name='index'),
+    path('firstname/', GenericModelView.as_view(),{'model_name': 'firstname'}, name='firstname_list'),
     path('delete_task/<int:task_id>/', delete_task, name='delete_task'),
     path('add_edit_task/', LineCreateView.as_view(), name='add_edit_task'),
     path('edit_task/<int:id>/', LineUpdateView.as_view(), name='edit_task'),

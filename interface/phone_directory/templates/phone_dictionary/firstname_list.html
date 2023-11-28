@@ -1,0 +1,42 @@
+{% extends 'phone_dictionary/base.html' %}
+
+{% block title %}Имена{% endblock %}
+
+
+{% block nav %}
+    <nav >
+        <a class="nav-button" href="{% url 'add_edit_task' %}">Добавить запись</a>   
+        <a class="nav-button" href="{% url 'index' %}">Главная</a>
+    </nav>
+{% endblock %}
+{% block content %}
+    <h2>Names</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Имя</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ task.name }}</td>
+                <td>
+                    <form method="post" action="{% url 'edit_task' task.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Редактировать</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" action="{% url 'delete_task' task.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

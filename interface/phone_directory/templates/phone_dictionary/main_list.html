@@ -7,14 +7,15 @@
     <nav >
         <a class="nav-button" href="{% url 'add_edit_task' %}">Добавить запись</a>   
         <a class="nav-button" href="{% url 'search' %}">Поиск</a>
+        <a class="nav-button" href="{% url 'firstname_list' %}">Имена</a>
     </nav>
 {% endblock %}
 {% block content %}
-    <h2>Your Task Table</h2>
+    <h2>Main</h2>
     <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>№</th>
                 <th>Фамилия</th>
                 <th>Имя</th>
                 <th>Отчество</th>
@@ -44,7 +45,7 @@
                     </form>
                 </td>
                 <td>
-                    <form method="post" action="{% url 'delete_task' task.id %}">
+                    <form method="post" action="{% url 'delete_task' task.id  %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
                     </form>
