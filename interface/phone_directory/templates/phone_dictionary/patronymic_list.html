@@ -5,12 +5,12 @@
 
 {% block nav %}
     <nav >
-        <a class="nav-button" href="{% url 'firstname_create' %}">Добавить запись</a>   
+        <a class="nav-button" href="{% url 'patronymic_create' %}">Добавить запись</a>   
         <a class="nav-button" href="{% url 'main_list' %}">Главная</a>
     </nav>
 {% endblock %}
 {% block content %}
-    <h2>Names</h2>
+    <h2>Patronymic</h2>
     <table>
         <thead>
             <tr>
@@ -24,7 +24,7 @@
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ task.name }}</td>
                 <td>
-                    <form method="post" action="{% url 'delete_task' model_name='firstname' task_id=task.id %}">
+                    <form method="post" action="{% url 'delete_task' model_name='patronymic' task_id=task.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
                     </form>

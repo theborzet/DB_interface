@@ -1,15 +1,16 @@
 {% extends 'phone_dictionary/base.html' %}
 
-{% block title %}Добавление записи{% endblock %}
+{% block title %}Добавление Улицы{% endblock %}
 
 {% block nav %}
     <nav >
-        <a class="nav-button" href="{% url 'index' %}">На главную</a>   
+        <a class="nav-button" href="{% url 'main_list' %}">На главную</a>
+        <a class="nav-button" href="{% url 'street_list' %}">Назад</a>
     </nav>
 {% endblock %}
 
 {% block content %}
-    <h2>Добавление записи</h2>
+    <h2>Добавление Улицы</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

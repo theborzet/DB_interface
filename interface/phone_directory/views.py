@@ -5,14 +5,14 @@ from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView
 
 from functools import reduce
 from operator import and_
 
 from phone_directory.models import Main, Firstname, Street, Surname, Patronymic
-from phone_directory.forms import MainForm, SearchForm
+from phone_directory.forms import MainForm, SearchForm, FirstnameForm, SurnameForm, PatronymicForm, StreetForm
 
 
 class GenericModelView(ListView):
@@ -38,23 +38,51 @@ class GenericModelView(ListView):
     def get_queryset(self):
         return self.model.objects.all()        
 
-def delete_task(request, task_id):
-    task = get_object_or_404(Main, id=task_id)
+def delete_task(request, model_name, task_id):
+    model_mapping = {
+            'main': Main,
+            'firstname': Firstname,
+            'surname': Surname,
+            'street': Street,
+            'patronymic': Patronymic,
+        }
+    model = model_mapping.get(model_name)
+
+    if not model:
+        return redirect('index')
+    
+    task = get_object_or_404(model, id=task_id)
     
     if request.method == 'POST':
         task.delete()
-        return redirect('index')
+        table_template = f'{model_name.lower()}_list'
+        return redirect(reverse(table_template))
 
     return redirect('index')
 
 
 
 class LineCreateView(SuccessMessageMixin, CreateView):
-    template_name = 'phone_dictionary/add.html'
-    form_class = MainForm
     success_message = 'Запись добавлена!'
-    success_url = reverse_lazy('index')
+    
+    def get_form_class(self):
+        model_name = self.kwargs.get('model_name', 'main')
+        form_mapping = {
+            'main': MainForm,
+            'firstname': FirstnameForm,
+            'surname': SurnameForm,
+            'street': StreetForm,
+            'patronymic': PatronymicForm,
+        }
+        return form_mapping.get(model_name, MainForm)
 
+    def get_template_names(self):
+        model_name = self.kwargs.get('model_name', 'main')
+        return [f'phone_dictionary/{model_name.lower()}_create.html']
+
+    def get_success_url(self):
+        model_name = self.kwargs.get('model_name', 'main')
+        return reverse_lazy(f'{model_name.lower()}_list')
 
 class LineUpdateView(SuccessMessageMixin, UpdateView):
     template_name = 'phone_dictionary/edit.html'

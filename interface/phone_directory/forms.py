@@ -30,3 +30,23 @@ class SearchForm(forms.ModelForm):
     corpus = forms.CharField(required=False)
     apartments = forms.IntegerField(required=False)
     phone = forms.CharField(required=False)
+
+class FirstnameForm(forms.ModelForm):
+    class Meta:
+        model = Firstname
+        fields = '__all__'
+
+class StreetForm(forms.ModelForm):
+    class Meta:
+        model = Street
+        fields = '__all__'
+
+class SurnameForm(forms.ModelForm):
+    class Meta:
+        model = Surname
+        fields = '__all__'
+
+class PatronymicForm(forms.ModelForm):
+    class Meta:
+        model = Patronymic
+        fields = '__all__'
