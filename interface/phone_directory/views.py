@@ -89,7 +89,7 @@ class LineUpdateView(SuccessMessageMixin, UpdateView):
     model = Main
     form_class = MainForm
     success_message = 'Запись обновлена!'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('main_list')
 
 
     def get_object(self):
@@ -123,9 +123,22 @@ class SearchView(View):
             if form.cleaned_data['street']:
                 q_filters.append(Q(street__name=form.cleaned_data['street']))
 
+            if form.cleaned_data['house']:
+                q_filters.append(Q(house=form.cleaned_data['house']))
+
+            if form.cleaned_data['corpus']:
+                q_filters.append(Q(corpus=form.cleaned_data['corpus']))
+
+            if form.cleaned_data['apartments']:
+                q_filters.append(Q(apartments=form.cleaned_data['apartments']))
+
+            if form.cleaned_data['phone']:
+                q_filters.append(Q(phone=form.cleaned_data['phone']))
+
             if q_filters:
                 combinedfilter = reduce(and_, q_filters)
                 search_results = Main.objects.filter(combinedfilter)
+            
             else:
                 search_results = Main.objects.none()
 

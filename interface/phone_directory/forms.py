@@ -5,6 +5,16 @@ class MainForm(forms.ModelForm):
     class Meta:
         model = Main
         fields = '__all__'
+        labels = {
+        'firstname': 'Имя',
+        'surname': 'Фамилия',
+        'patronymic' : 'Отчество',
+        'street' : 'Улица',
+        'house' : 'Дом',
+        'corpus': 'Корпус',
+        'apartments' : 'Квартира',
+        'phone' : 'Телефон',
+        }
 
     def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
@@ -35,18 +45,22 @@ class FirstnameForm(forms.ModelForm):
     class Meta:
         model = Firstname
         fields = '__all__'
+        labels = {'name' : 'Имя'}
 
 class StreetForm(forms.ModelForm):
     class Meta:
         model = Street
         fields = '__all__'
+        labels = {'name' : 'Улица'}
 
 class SurnameForm(forms.ModelForm):
     class Meta:
         model = Surname
         fields = '__all__'
+        labels = {'name' : 'Фамилия'}
 
 class PatronymicForm(forms.ModelForm):
     class Meta:
         model = Patronymic
         fields = '__all__'
+        labels = {'name' : 'Отчество'}
